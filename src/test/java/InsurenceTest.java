@@ -1,7 +1,4 @@
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,25 +12,12 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Ольга Гайдукова
  */
-public class InsurenceTest {
-    private WebDriver driver;
-    private String baseUrl;
-
-
-    @Before
-    public void setUp() throws Exception {
-        System.setProperty("webdriver.chrome.driver", "drv/chromedriver.exe");
-
-        //Шаг 1. Перейти на страницу http://www.sberbank.ru/ru/person
-        baseUrl = "http://www.sberbank.ru/ru/person";
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
-        driver.get(baseUrl);
-    }
+public class InsurenceTest extends BaseTest {
 
     @Test
+    @Ignore
     public void testInsurence () {
+        driver.get(baseUrl + "/");
         Wait wait = new WebDriverWait(driver, 5, 1000);
         //Шаг 2. Нажать на – Застраховать себя и имущество
         driver.findElement(By.xpath("//*[contains(text(),'Застраховать себя')]")).click();
@@ -99,14 +83,7 @@ public class InsurenceTest {
         //Шаг 11. Проверить, что появилось сообщение - Заполнены не все обязательные поля
         Assert.assertEquals("Заполнены не все обязательные поля", driver.findElement(By.xpath("//DIV[@ng-show='tryNext && myForm.$invalid']")).getText());
     }
-    public void fillField (By locator, String value){
-        driver.findElement(locator).clear();
-        driver.findElement(locator).sendKeys(value);
-    }
 
 
-    @After
-    public void afterTest () {
-        driver.quit();
-    }
+
 }
